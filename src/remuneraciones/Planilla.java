@@ -1,5 +1,7 @@
 package remuneraciones;
 
+import java.util.Scanner;
+
 public class Planilla {
 	
 	public static void main(String[] args) {
@@ -27,9 +29,18 @@ public class Planilla {
 		
 		int montoImponible = calcularMontoImponible(sueldoBase);
 		int montoAFP = calcularMontoAfp(montoImponible,afp);
+		int montoNoImponible = calcularMontoNoImponible(colacion,movilizacion);
+		int montoSalud = calcularMontoSalud(montoImponible, salud);
+		int montoPlazo = calcularSeguroCesantia(montoImponible, plazoContrato);
 		
+		System.out.printf("Monto imponible %d\n", sueldoBase);
+		System.out.printf("Monto No imponible %d\n\n", montoNoImponible);
+		System.out.println("Descuentos legales:");
 		System.out.printf("AFP: %s\n", afp); //se esta uniendo el valor de una variable a un string, en este caso se formatea el valor de la variable afp
-		System.out.printf("Monto: %d\n", montoAFP); //se esta uniendo el valor de una variable a un string, en este caso se formatea el valor de la variable montoAfp que es un integer
+		System.out.printf("Descuento AFP: %d\n", montoAFP); //se esta uniendo el valor de una variable a un string, en este caso se formatea el valor de la variable montoAfp que es un integer
+		System.out.printf("Descuento %s %d\n", salud, montoSalud);
+		System.out.printf("Descuento seguro cesantia %d\n", montoPlazo);			
+		
 	}
 	
 	public static int calcularMontoImponible(int sueldoBase) {
@@ -38,6 +49,24 @@ public class Planilla {
 	
 	public static int calcularMontoNoImponible(int colacion, int movilizacion) {
 		return colacion + movilizacion;
+	}
+	
+	public static int calcularMontoSalud(int montoImponible, String salud) {
+		double uf = 31727.74;//monto uf a marzo del 2022
+		switch(salud) {
+			case "fonasa":{
+				return (int) (montoImponible * 0.07);
+			}
+			case "isapre":{
+				double montoIsapre;
+				System.out.println("Ingrese el plan de salud en UF, ejemplo: 1.5 ");
+				Scanner teclado = new Scanner(System.in);
+				montoIsapre = teclado.nextDouble();
+				return (int) (montoIsapre * uf);
+			}
+		}
+		return 0;
+		
 	}
 	
 	public static int calcularMontoAfp(int montoImponible, String afp) {
@@ -62,6 +91,16 @@ public class Planilla {
 			}
 			case "uno": {
 				return (int) (montoImponible * 0.1069);
+			}
+		}
+		return 0;
+	}
+	
+	public static int calcularSeguroCesantia(int montoImponible, String plazoContrato) {
+		
+		switch(plazoContrato) {
+			case "indefinido":{
+				return (int) (montoImponible * 0.006);
 			}
 		}
 		return 0;
