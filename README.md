@@ -1,5 +1,3 @@
-# remuneration
-Aplicación para el calculo de la remuneración, dependiendo el valor de la afp, salud y el tipo de contrato
 # Calculador de remuneración mensual 💵 con Java☕
 
 _Aplicación que recibe 6 argumentos, sueldo base, colación, movilización, afp, salud, tipo de contrato.
